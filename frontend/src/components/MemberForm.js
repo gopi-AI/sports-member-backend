@@ -27,7 +27,7 @@ function MemberForm() {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    await axios.post('http://localhost:5000/api/members', formData);
+    await axios.post('https://sports-member-backend.onrender.com/api/members', formData);
     alert('Member saved!');
     setFormData({
       name: '',
