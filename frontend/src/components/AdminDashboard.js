@@ -6,7 +6,7 @@ function AdminDashboard() {
   const [filterTeam, setFilterTeam] = useState('');
 
   const loadMembers = async () => {
-    const res = await axios.get('http://localhost:5000/api/members');
+    const res = await axios.get('https://sports-member-backend.onrender.com/api/members');
     setMembers(res.data);
   };
 
@@ -25,7 +25,7 @@ function AdminDashboard() {
     if(filterTeam === '') {
       loadMembers();
     } else {
-      const res = await axios.get(`http://localhost:5000/api/members/team/${filterTeam}`);
+      const res = await axios.get(`https://sports-member-backend.onrender.com/api/members/team/${filterTeam}`);
       setMembers(res.data);
     }
   };
