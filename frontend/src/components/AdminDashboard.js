@@ -16,7 +16,7 @@ function AdminDashboard() {
 
   const handleDelete = async (id) => {
     if(window.confirm('Delete this member?')) {
-      await axios.delete(`http://localhost:5000/api/members/${id}`);
+      await axios.delete(`https://YOUR-BACKEND-RENDER-URL.onrender.com/api/members/${id}`);
       loadMembers();
     }
   };
