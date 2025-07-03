@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="container py-4">
       <nav className="mb-4">
-        <Link className="btn btn-primary me-2" to="/">Home</Link>
+       
         
       </nav>
       <Routes>
