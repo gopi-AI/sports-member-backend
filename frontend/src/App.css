@@ -1,1 +1,9 @@
 
+.big-checkbox {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.big-checkbox + label {
+  margin-left: 0.5em;
+}
