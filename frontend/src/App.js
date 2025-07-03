@@ -9,7 +9,7 @@ function App() {
     <div className="container py-4">
       <nav className="mb-4">
         <Link className="btn btn-primary me-2" to="/">Home</Link>
-        <Link className="btn btn-secondary me-2" to="/admin">Admin Dashboard</Link>
+        
       </nav>
       <Routes>
         <Route path="/" element={<MemberForm />} />
