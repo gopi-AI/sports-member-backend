@@ -3,6 +3,9 @@ import { Routes, Route, Link } from 'react-router-dom';
 import MemberForm from './components/MemberForm';
 import AdminDashboard from './admin/Dashboard';
 import TeamProfile from './admin/TeamProfile';
+import Success from "./components/Success";
+
+
 
 function App() {
   return (
@@ -15,7 +18,13 @@ function App() {
         <Route path="/" element={<MemberForm />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/team/:teamName" element={<TeamProfile />} />
+        <Route path="/" element={<MemberForm />} />
+        <Route path="/success" element={<Success />} />
       </Routes>
+      
+       
+  
+
     </div>
   );
 }
