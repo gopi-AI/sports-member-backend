@@ -75,12 +75,27 @@ function MemberForm() {
           <option>Other</option>
         </select>
       </div>
-      <div className="mb-3">
-        <label>Sports</label>
-        <select multiple className="form-select" onChange={handleSportsChange}>
-          {sportsOptions.map(s => <option key={s}>{s}</option>)}
-        </select>
+     <div className="mb-3">
+  <label className="form-label">Sports</label>
+  <div className="row">
+    {sportOptions.map((sport) => (
+      <div className="col-md-4" key={sport}>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            name="sports"
+            value={sport}
+            checked={formData.sports.includes(sport)}
+            onChange={handleSportsChange}
+          />
+          <label className="form-check-label">{sport}</label>
+        </div>
       </div>
+    ))}
+  </div>
+</div>
+
       <div className="mb-3">
         <label>Team</label>
     <select className="form-select" name="team" value={formData.team} onChange={handleChange}>
