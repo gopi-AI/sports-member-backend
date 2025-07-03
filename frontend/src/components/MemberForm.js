@@ -12,7 +12,14 @@ function MemberForm() {
     team: 'None'
   });
 
-  const sportsOptions = ['Football', 'Tennis', 'Basketball', 'Cricket'];
+  const sportOptions = [
+  'Cricket',
+  'Badminton',
+  'Barbell Bench Press',
+  'Barbell Squats',
+  'Dead Lift'
+];
+
   const teams = ['Team A', 'Team B', 'Team C', 'None'];
 
   const handleChange = e => {
