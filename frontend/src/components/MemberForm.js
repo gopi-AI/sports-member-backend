@@ -76,9 +76,17 @@ function MemberForm() {
       </div>
       <div className="mb-3">
         <label>Team</label>
-        <select className="form-select" name="team" value={formData.team} onChange={handleChange}>
-          {teams.map(t => <option key={t}>{t}</option>)}
-        </select>
+    <select className="form-select" name="team" value={formData.team} onChange={handleChange}>
+  <option value="">Select Team</option>
+  <option value="Anonymous Avengers">Anonymous Avengers</option>
+  <option value="Bulls Team">Bulls Team</option>
+  <option value="Royal Challengers Mysore">Royal Challengers Mysore</option>
+  <option value="Kasthuri Strikers">Kasthuri Strikers</option>
+  <option value="Young Fighters">Young Fighters</option>
+  <option value="Apex Titans">Apex Titans</option>
+  <option value="None">None</option>
+</select>
+
       </div>
       <button className="btn btn-primary">Save Member</button>
     </form>
