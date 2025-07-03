@@ -61,20 +61,44 @@ function AdminDashboard() {
           </tr>
         </thead>
         <tbody>
-          {members.map(m => (
-            <tr key={m._id}>
-              <td>{m.name}</td>
-              <td>{m.phone}</td>
-              <td>{m.team}</td>
-              <td>{m.sports.join(', ')}</td>
-              <td>
-                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(m._id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+  {members.map((member) => (
+    <tr key={member._id}>
+      <td>{member.name}</td>
+      <td>{member.phone}</td>
+      <td>{member.age}</td>
+      <td>{member.sex}</td>
+      <td>{member.sports.join(", ")}</td>
+      <td>
+        {member.team === "None" ? (
+          <select
+            className="form-select"
+            onChange={(e) => handleAssignTeam(member._id, e.target.value)}
+          >
+            <option value="">Assign Team</option>
+            {teamOptions
+              .filter((t) => t !== "None")
+              .map((team) => (
+                <option key={team} value={team}>
+                  {team}
+                </option>
+              ))}
+          </select>
+        ) : (
+          member.team
+        )}
+      </td>
+      <td>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => handleDelete(member._id)}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
       </table>
     </div>
   );
