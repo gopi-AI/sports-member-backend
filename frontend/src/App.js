@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="container py-4">
       <nav className="mb-4">
-       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc_WxcS1J_6tayj3HFh9apGgn9j-U71LA09w&s" class="img=rounded" />
+       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc_WxcS1J_6tayj3HFh9apGgn9j-U71LA09w&s" class="rounded-circle"  class="rounded"/>
         
       </nav>
       <Routes>
