@@ -20,6 +20,7 @@ function App() {
         <Route path="/team/:teamName" element={<TeamProfile />} />
         <Route path="/" element={<MemberForm />} />
         <Route path="/success" element={<Success />} />
+        <Route path="/admin" element={<Dashboard />} />
       </Routes>
       
        
