@@ -25,6 +25,8 @@ function MemberForm() {
     "Barbell Bench Press",
     "Barbell Squats",
     "Dead Lift",
+    "tug of war",
+    "circuit challenges",
   ];
 
   const teamOptions = [
