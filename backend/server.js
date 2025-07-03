@@ -4,11 +4,17 @@ const cors = require('cors');
 const memberRoutes = require('./routes/members');
 
 const app = express();
-app.use(cors());
+
+
+app.use(cors({
+  origin: 'https://sports-member-backend-61jc.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use('/api', memberRoutes);
 
-// Update this with your MongoDB connection string
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -17,4 +23,3 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
