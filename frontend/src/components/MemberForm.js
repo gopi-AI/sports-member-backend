@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function MemberForm() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -52,27 +57,56 @@ function MemberForm() {
     setFormData({ ...formData, sports: updatedSports });
   };
 
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      toast.error("Name is required.");
+      return false;
+    }
+    if (!/^\d{10}$/.test(formData.phone)) {
+      toast.error("Phone must be 10 digits.");
+      return false;
+    }
+    if (formData.weight < 1) {
+      toast.error("Weight must be positive.");
+      return false;
+    }
+    if (formData.age < 1) {
+      toast.error("Age must be positive.");
+      return false;
+    }
+    if (!formData.sex) {
+      toast.error("Please select sex.");
+      return false;
+    }
+    if (formData.sports.length === 0) {
+      toast.error("Select at least one sport.");
+      return false;
+    }
+    if (!formData.team) {
+      toast.error("Select a team.");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     setLoading(true);
     try {
       await axios.post(
         "https://sports-member-backend.onrender.com/api/members",
         formData
       );
-      alert("Member saved successfully!");
-      setFormData({
-        name: "",
-        phone: "",
-        weight: "",
-        age: "",
-        sex: "",
-        sports: [],
-        team: "",
-      });
+      toast.success("Member saved successfully!");
+
+      setTimeout(() => {
+        navigate("/success");
+      }, 1000);
     } catch (error) {
       console.error(error);
-      alert("Error saving member.");
+      toast.error("Error saving member.");
     } finally {
       setLoading(false);
     }
@@ -80,6 +114,7 @@ function MemberForm() {
 
   return (
     <div className="container py-5">
+      <ToastContainer />
       <div className="card shadow p-4">
         <h2 className="mb-4">Member Registration</h2>
         <form onSubmit={handleSubmit}>
@@ -91,7 +126,6 @@ function MemberForm() {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              required
             />
           </div>
 
@@ -103,7 +137,7 @@ function MemberForm() {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              required
+              maxLength="10"
             />
           </div>
 
@@ -116,7 +150,6 @@ function MemberForm() {
                 name="weight"
                 value={formData.weight}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="col-md-4 mb-3">
@@ -127,7 +160,6 @@ function MemberForm() {
                 name="age"
                 value={formData.age}
                 onChange={handleChange}
-                required
               />
             </div>
             <div className="col-md-4 mb-3">
@@ -137,7 +169,6 @@ function MemberForm() {
                 name="sex"
                 value={formData.sex}
                 onChange={handleChange}
-                required
               >
                 <option value="">Select Sex</option>
                 <option value="Male">Male</option>
@@ -175,7 +206,6 @@ function MemberForm() {
               name="team"
               value={formData.team}
               onChange={handleChange}
-              required
             >
               <option value="">Select Team</option>
               {teamOptions.map((team) => (
