@@ -7,7 +7,7 @@ const app = express();
 
 
 app.use(cors({
-  origin: 'https://sports-member-backend-61jc.vercel.app',
+  origin: 'https://oxygenfitness.vercel.app',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
