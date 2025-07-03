@@ -180,26 +180,27 @@ function MemberForm() {
             </div>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Sports</label>
-            <div className="row">
-              {sportOptions.map((sport) => (
-                <div className="col-md-4" key={sport}>
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      name="sports"
-                      value={sport}
-                      checked={formData.sports.includes(sport)}
-                      onChange={handleSportsChange}
-                    />
-                    <label className="form-check-label">{sport}</label>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+<div className="mb-3">
+  <label className="form-label">Sports</label>
+  <div className="row">
+    {sportOptions.map((sport) => (
+      <div className="col-md-4" key={sport}>
+        <div className="form-check">
+          <input
+            className="form-check-input big-checkbox"
+            type="checkbox"
+            name="sports"
+            value={sport}
+            checked={formData.sports.includes(sport)}
+            onChange={handleSportsChange}
+          />
+          <label className="form-check-label">{sport}</label>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
 
           <div className="mb-3">
             <label className="form-label">Team</label>
