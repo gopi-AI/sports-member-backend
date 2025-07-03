@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'https://YOUR-BACKEND.onrender.com/api';
+const API_URL = 'https://sports-member-backend.onrender.com/api';
 
 function AdminDashboard() {
   const [members, setMembers] = useState([]);
