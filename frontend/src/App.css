@@ -7,3 +7,8 @@
 .big-checkbox + label {
   margin-left: 0.5em;
 }
+
+img.centered {
+  display: block;
+  margin: 0 auto;
+}
