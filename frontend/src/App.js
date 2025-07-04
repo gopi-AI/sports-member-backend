@@ -21,7 +21,7 @@ function App() {
       </nav>
       <Routes>
         <Route path="/" element={<MemberForm />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin" element={<Dashboard />} />
         <Route path="/team/:teamName" element={<TeamProfile />} />
         <Route path="/" element={<MemberForm />} />
         <Route path="/success" element={<Success />} />
