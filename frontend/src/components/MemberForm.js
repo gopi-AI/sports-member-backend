@@ -22,11 +22,10 @@ function MemberForm() {
   const sportOptions = [
     "Cricket",
     "Badminton",
-    "Barbell Bench Press",
-    "Barbell Squats",
-    "Dead Lift",
-    "tug of war",
-    "circuit challenges",
+    "BenchPress Challenge",
+    "DeadLift challenge",
+    "Tug of War",
+    "Circuit Challenges",
   ];
 
   const teamOptions = [
