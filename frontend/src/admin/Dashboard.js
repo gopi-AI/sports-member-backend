@@ -5,6 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Dashboard() {
   const [members, setMembers] = useState([]);
+  const [filteredMembers, setFilteredMembers] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState("All Teams");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const teamOptions = [
     "Anonymous Avengers",
@@ -19,9 +22,10 @@ function Dashboard() {
   const fetchMembers = async () => {
     try {
       const res = await axios.get(
-        "https://sports-member-backend.onrender.com/api"
+        "https://sports-member-backend.onrender.com/api/members"
       );
       setMembers(res.data);
+      setFilteredMembers(res.data);
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch members");
@@ -31,6 +35,23 @@ function Dashboard() {
   useEffect(() => {
     fetchMembers();
   }, []);
+
+  // Filter whenever selectedTeam or searchQuery changes
+  useEffect(() => {
+    let data = [...members];
+
+    if (selectedTeam !== "All Teams") {
+      data = data.filter((m) => m.team === selectedTeam);
+    }
+
+    if (searchQuery.trim() !== "") {
+      data = data.filter((m) =>
+        m.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredMembers(data);
+  }, [selectedTeam, searchQuery, members]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this member?")) return;
@@ -67,6 +88,33 @@ function Dashboard() {
     <div className="container py-5">
       <ToastContainer />
       <h2 className="mb-4">Admin Dashboard</h2>
+
+      <div className="row mb-3">
+        <div className="col-md-4">
+          <select
+            className="form-select"
+            value={selectedTeam}
+            onChange={(e) => setSelectedTeam(e.target.value)}
+          >
+            <option value="All Teams">All Teams</option>
+            {teamOptions.map((team) => (
+              <option key={team} value={team}>
+                {team}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-md-4">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+      </div>
+
       <div className="table-responsive">
         <table className="table table-bordered table-striped align-middle">
           <thead className="table-dark">
@@ -81,7 +129,7 @@ function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            {members.map((member) => (
+            {filteredMembers.map((member) => (
               <tr key={member._id}>
                 <td>{member.name}</td>
                 <td>{member.phone}</td>
@@ -113,7 +161,7 @@ function Dashboard() {
                 </td>
               </tr>
             ))}
-            {members.length === 0 && (
+            {filteredMembers.length === 0 && (
               <tr>
                 <td colSpan="7" className="text-center">
                   No members found.
