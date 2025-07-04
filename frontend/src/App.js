@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import MemberForm from './components/MemberForm';
-import AdminDashboard from './admin/Dashboard';
+import Dashboard from './admin/Dashboard';
 import TeamProfile from './admin/TeamProfile';
 import Success from "./components/Success";
 
