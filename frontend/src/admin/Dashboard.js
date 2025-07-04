@@ -37,7 +37,7 @@ function Dashboard() {
 
     try {
       await axios.delete(
-        `https://YOUR-BACKEND-URL.onrender.com/api/members/${id}`
+        `https://sports-member-backend.onrender.com/api/members/${id}`
       );
       toast.success("Member deleted");
       fetchMembers();
@@ -52,7 +52,7 @@ function Dashboard() {
 
     try {
       await axios.put(
-        `https://YOUR-BACKEND-URL.onrender.com/api/members/${id}`,
+        `https://sports-member-backend.onrender.com/api/members/${id}`,
         { team: newTeam }
       );
       toast.success("Team updated");
