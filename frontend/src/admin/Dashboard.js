@@ -146,6 +146,7 @@ function Dashboard() {
         <table className="table table-bordered table-striped align-middle">
           <thead className="table-dark">
             <tr>
+              <th>#</th>
               <th>Name</th>
               <th>Phone</th>
               <th>Age</th>
@@ -158,6 +159,7 @@ function Dashboard() {
           <tbody>
             {filteredMembers.map((member) => (
               <tr key={member._id}>
+                <td>{index + 1}</td>
                 <td>{member.name}</td>
                 <td>{member.phone}</td>
                 <td>{member.age}</td>
