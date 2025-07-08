@@ -157,7 +157,7 @@ function Dashboard() {
             </tr>
           </thead>
           <tbody>
-            {filteredMembers.map((member) => (
+            {filteredMembers.map((member, index) => (
               <tr key={member._id}>
                 <td>{index + 1}</td>
                 <td>{member.name}</td>
