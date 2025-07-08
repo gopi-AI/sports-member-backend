@@ -109,7 +109,7 @@ function Dashboard() {
             value={selectedTeam}
             onChange={(e) => setSelectedTeam(e.target.value)}
           >
-            <option value="All Teams">Sort By Teams</option>
+            <option value="All Teams">All Teams</option>
             {teamOptions.map((team) => (
               <option key={team} value={team}>
                 {team}
@@ -123,7 +123,7 @@ function Dashboard() {
             value={selectedSport}
             onChange={(e) => setSelectedSport(e.target.value)}
           >
-            <option value="All Sports">Sort By Sports</option>
+            <option value="All Sports">All Sports</option>
             {sportOptions.map((sport) => (
               <option key={sport} value={sport}>
                 {sport}
