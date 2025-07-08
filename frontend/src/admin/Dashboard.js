@@ -7,6 +7,7 @@ function Dashboard() {
   const [members, setMembers] = useState([]);
   const [filteredMembers, setFilteredMembers] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState("All Teams");
+  const [selectedSport, setSelectedSport] = useState("All Sports");
   const [searchQuery, setSearchQuery] = useState("");
 
   const teamOptions = [
@@ -17,6 +18,15 @@ function Dashboard() {
     "Young Fighters",
     "Apex Titans",
     "None",
+  ];
+
+  const sportOptions = [
+    "Cricket",
+    "Badminton",
+    "BenchPress Challenge",
+    "DeadLift challenge",
+    "Tug of War",
+    "Circuit Challenges",
   ];
 
   const fetchMembers = async () => {
@@ -36,7 +46,6 @@ function Dashboard() {
     fetchMembers();
   }, []);
 
-  // Filter whenever selectedTeam or searchQuery changes
   useEffect(() => {
     let data = [...members];
 
@@ -50,8 +59,12 @@ function Dashboard() {
       );
     }
 
+    if (selectedSport !== "All Sports") {
+      data = data.filter((m) => m.sports.includes(selectedSport));
+    }
+
     setFilteredMembers(data);
-  }, [selectedTeam, searchQuery, members]);
+  }, [selectedTeam, selectedSport, searchQuery, members]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this member?")) return;
@@ -90,7 +103,7 @@ function Dashboard() {
       <h2 className="mb-4">Admin Dashboard</h2>
 
       <div className="row mb-3">
-        <div className="col-md-4">
+        <div className="col-md-4 mb-2">
           <select
             className="form-select"
             value={selectedTeam}
@@ -104,7 +117,21 @@ function Dashboard() {
             ))}
           </select>
         </div>
-        <div className="col-md-4">
+        <div className="col-md-4 mb-2">
+          <select
+            className="form-select"
+            value={selectedSport}
+            onChange={(e) => setSelectedSport(e.target.value)}
+          >
+            <option value="All Sports">All Sports</option>
+            {sportOptions.map((sport) => (
+              <option key={sport} value={sport}>
+                {sport}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-md-4 mb-2">
           <input
             type="text"
             className="form-control"
@@ -135,7 +162,13 @@ function Dashboard() {
                 <td>{member.phone}</td>
                 <td>{member.age}</td>
                 <td>{member.sex}</td>
-                <td>{member.sports.join(", ")}</td>
+                <td>
+                  {member.sports.map((s, idx) => (
+                    <span key={idx} className="badge bg-primary me-1">
+                      {s}
+                    </span>
+                  ))}
+                </td>
                 <td>
                   <select
                     className="form-select"
