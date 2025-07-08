@@ -119,7 +119,7 @@ function Dashboard() {
           </select>
         </div>
         <div className="col-md-4 mb-2">
-            
+          <label htmlFor="sportFilter" className="form-label fw-bold">Filter by Sports</label>  
           <select
             className="form-select"
             value={selectedSport}
