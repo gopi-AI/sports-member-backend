@@ -146,7 +146,7 @@ function Dashboard() {
         <table className="table table-bordered table-striped align-middle">
           <thead className="table-dark">
             <tr>
-              <th>No</th>
+              <th>#</th>
               <th>Name</th>
               <th>Phone</th>
               <th>Age</th>
