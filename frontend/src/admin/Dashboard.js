@@ -134,6 +134,7 @@ function Dashboard() {
           </select>
         </div>
         <div className="col-md-4 mb-2">
+            <label htmlFor="sportFilter" className="form-label fw-bold">Search by Name</label>
           <input
             type="text"
             className="form-control"
