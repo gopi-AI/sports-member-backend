@@ -7,8 +7,12 @@ const Member = require('./models/Member');
 const app = express();
 
 // ✅ Global CORS
-app.use(cors());
-app.options('*', cors());
+app.use(cors({
+  origin: 'https://oxygenfitness.vercel.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 
 app.use(express.json());
 app.use('/api', memberRoutes);
