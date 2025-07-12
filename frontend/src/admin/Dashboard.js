@@ -152,10 +152,15 @@ const exportPDF = () => {
       <ToastContainer />
       <h2 className="mb-4">Admin Dashboard</h2>
 
-   <div className="mb-4">
+
+     <div className="mb-4">
     <button className="btn btn-outline-primary mb-3" onClick={exportPDF}>
   Download PDF by Team
 </button>
+ 
+</div>
+   <div className="mb-4">
+   
   <Link to="/stats" className="btn btn-info">
     <FaChartBar className="me-2" />
     View Stats
