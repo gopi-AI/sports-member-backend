@@ -24,6 +24,7 @@ ChartJS.register(
 
 const Stats = () => {
   const [members, setMembers] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState("All Teams");
 
   useEffect(() => {
     document.title = "Some Stats | Oxygen Fitness";
@@ -33,6 +34,19 @@ const Stats = () => {
       .catch((err) => console.error(err));
   }, []);
 
+  // Extract unique team names
+  const allTeams = [
+    "All Teams",
+    ...Array.from(new Set(members.map((m) => m.team)))
+  ];
+
+  // Filter members based on selected team
+  const filteredMembers =
+    selectedTeam === "All Teams"
+      ? members
+      : members.filter((m) => m.team === selectedTeam);
+
+  // Count sports
   const sportsCounts = {};
   const teamCounts = {};
   const ageGroups = {
@@ -46,16 +60,13 @@ const Stats = () => {
     "Above 60 Years": 0
   };
 
-  members.forEach((member) => {
-    // Sports count
+  filteredMembers.forEach((member) => {
     member.sports.forEach((sport) => {
       sportsCounts[sport] = (sportsCounts[sport] || 0) + 1;
     });
 
-    // Team count
     teamCounts[member.team] = (teamCounts[member.team] || 0) + 1;
 
-    // Age group distribution
     const age = member.age;
     if (age >= 14 && age <= 18) ageGroups["14-18 Years"]++;
     else if (age >= 19 && age <= 25) ageGroups["19-25 Years"]++;
@@ -124,6 +135,20 @@ const Stats = () => {
   return (
     <div className="container my-5">
       <h2 className="text-center mb-4">📊 Statistics Dashboard</h2>
+
+      <div className="mb-4 d-flex justify-content-center">
+        <select
+          className="form-select w-auto"
+          value={selectedTeam}
+          onChange={(e) => setSelectedTeam(e.target.value)}
+        >
+          {allTeams.map((team) => (
+            <option key={team} value={team}>
+              {team}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
         <h4 className="text-center">Players Per Sport</h4>
