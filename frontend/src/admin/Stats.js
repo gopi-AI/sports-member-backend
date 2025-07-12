@@ -111,8 +111,8 @@ const Stats = () => {
     <div className="container my-5">
       <h2 className="text-center mb-4">📊 Statistics Dashboard</h2>
 
-      <div className="mb-5">
-        <h4>Players Per Sport</h4>
+      <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
+        <h4>Total Players Per Sport</h4>
         <Bar
           data={makeBarData(
             Object.keys(sportsCounts),
@@ -123,8 +123,8 @@ const Stats = () => {
         />
       </div>
 
-      <div className="mb-5">
-        <h4>Members Per Team</h4>
+      <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
+        <h4>Total Members Per Team</h4>
         <Bar
           data={makeBarData(
             Object.keys(teamCounts),
@@ -135,7 +135,7 @@ const Stats = () => {
         />
       </div>
 
-      <div className="mb-5">
+      <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
         <h4>Age Group Distribution</h4>
         <Bar
           data={makeBarData(
