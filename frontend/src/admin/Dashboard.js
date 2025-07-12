@@ -5,7 +5,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { FaLock } from "react-icons/fa";
 import { FaChartBar } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 function Dashboard() {
   const [members, setMembers] = useState([]);
@@ -46,6 +47,51 @@ function Dashboard() {
     }
   };
 
+
+const exportPDF = () => {
+  const doc = new jsPDF();
+  let startY = 10;
+
+  const teams = [...new Set(members.map((m) => m.team))];
+
+  teams.forEach((team) => {
+    const teamMembers = members.filter((m) => m.team === team);
+
+    // Add team title
+    doc.setFontSize(14);
+    doc.text(`Team: ${team}`, 14, startY);
+    startY += 6;
+
+    autoTable(doc, {
+      startY,
+      head: [["Name", "Phone", "Age", "Sex", "Weight", "Sports"]],
+      body: teamMembers.map((member) => [
+        member.name,
+        member.phone,
+        member.age,
+        member.sex,
+        member.weight,
+        member.sports.join(", ")
+      ]),
+      theme: "striped",
+      margin: { left: 14 },
+      styles: { fontSize: 9 },
+      didDrawPage: (data) => {
+        startY = data.cursor.y + 10;
+      }
+    });
+
+    // Check if page height is exceeded
+    if (startY > 260) {
+      doc.addPage();
+      startY = 10;
+    }
+  });
+
+  doc.save("members-by-team.pdf");
+};
+
+  
   useEffect(() => {
     fetchMembers();
   }, []);
@@ -107,6 +153,9 @@ function Dashboard() {
       <h2 className="mb-4">Admin Dashboard</h2>
 
    <div className="mb-4">
+    <button className="btn btn-outline-primary mb-3" onClick={exportPDF}>
+  Download PDF by Team
+</button>
   <Link to="/stats" className="btn btn-info">
     <FaChartBar className="me-2" />
     View Stats
