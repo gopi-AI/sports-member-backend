@@ -67,10 +67,11 @@ const Stats = () => {
     else ageGroups["Above 60 Years"]++;
   });
 
-  const getBarColors = (count) =>
-    Array.from({ length: count }, () =>
-      hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)
-    );
+ const getBarColors = (count) =>
+  Array.from({ length: count }, () =>
+    `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
+  );
+;
 
   const sharedOptions = (maxY) => ({
     responsive: true,
