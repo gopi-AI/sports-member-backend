@@ -1,192 +1,272 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-} from "chart.js";
-import ChartDataLabels from "chartjs-plugin-datalabels";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { FaLock } from "react-icons/fa";
+import { FaChartBar } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ChartDataLabels
-);
-
-const Stats = () => {
+function Dashboard() {
   const [members, setMembers] = useState([]);
+  const [filteredMembers, setFilteredMembers] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState("All Teams");
+  const [selectedSport, setSelectedSport] = useState("All Sports");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    document.title = "Some Stats | Oxygen Fitness";
-    axios
-      .get("https://sports-member-backend.onrender.com/api/members")
-      .then((res) => setMembers(res.data))
-      .catch((err) => console.error(err));
-  }, []);
-
-  // Extract unique team names
-  const allTeams = [
-    "All Teams",
-    ...Array.from(new Set(members.map((m) => m.team)))
+  const teamOptions = [
+    "Anonymous Avengers",
+    "Bulls Team",
+    "Royal Challengers Mysore",
+    "Kasthuri Strikers",
+    "Young Fighters",
+    "Apex Titans",
+    "None",
   ];
 
-  // Filter members based on selected team
-  const filteredMembers =
-    selectedTeam === "All Teams"
-      ? members
-      : members.filter((m) => m.team === selectedTeam);
+  const sportOptions = [
+    "Cricket",
+    "Badminton",
+    "BenchPress Challenge",
+    "DeadLift challenge",
+    "Tug of War",
+    "Circuit Challenges",
+  ];
 
-  // Count sports
-  const sportsCounts = {};
-  const teamCounts = {};
-  const ageGroups = {
-    "14-18 Years": 0,
-    "19-25 Years": 0,
-    "26-30 Years": 0,
-    "31-35 Years": 0,
-    "36-45 Years": 0,
-    "46-50 Years": 0,
-    "51-60 Years": 0,
-    "Above 60 Years": 0
+  const fetchMembers = async () => {
+    try {
+      const res = await axios.get(
+        "https://sports-member-backend.onrender.com/api/members"
+      );
+      setMembers(res.data);
+      setFilteredMembers(res.data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to fetch members");
+    }
   };
 
-  filteredMembers.forEach((member) => {
-    member.sports.forEach((sport) => {
-      sportsCounts[sport] = (sportsCounts[sport] || 0) + 1;
+
+const exportPDF = () => {
+  const doc = new jsPDF();
+  let startY = 10;
+
+  const teams = [...new Set(members.map((m) => m.team))];
+
+  teams.forEach((team) => {
+    const teamMembers = members.filter((m) => m.team === team);
+
+    // Add team title
+    doc.setFontSize(14);
+    doc.text(`Team: ${team}`, 14, startY);
+    startY += 6;
+
+    autoTable(doc, {
+      startY,
+      head: [["Name", "Phone", "Age", "Sex", "Weight", "Sports"]],
+      body: teamMembers.map((member) => [
+        member.name,
+        member.phone,
+        member.age,
+        member.sex,
+        member.weight,
+        member.sports.join(", ")
+      ]),
+      theme: "striped",
+      margin: { left: 14 },
+      styles: { fontSize: 9 },
+      didDrawPage: (data) => {
+        startY = data.cursor.y + 10;
+      }
     });
 
-    teamCounts[member.team] = (teamCounts[member.team] || 0) + 1;
-
-    const age = member.age;
-    if (age >= 14 && age <= 18) ageGroups["14-18 Years"]++;
-    else if (age >= 19 && age <= 25) ageGroups["19-25 Years"]++;
-    else if (age >= 26 && age <= 30) ageGroups["26-30 Years"]++;
-    else if (age >= 31 && age <= 35) ageGroups["31-35 Years"]++;
-    else if (age >= 36 && age <= 45) ageGroups["36-45 Years"]++;
-    else if (age >= 46 && age <= 50) ageGroups["46-50 Years"]++;
-    else if (age >= 51 && age <= 60) ageGroups["51-60 Years"]++;
-    else ageGroups["Above 60 Years"]++;
-  });
-
-  const getBarColors = (count) =>
-    Array.from({ length: count }, () =>
-      `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
-    );
-
-  const sharedOptions = (maxY) => ({
-    responsive: true,
-    maintainAspectRatio: true,
-    aspectRatio: 1.8,
-    plugins: {
-      legend: { display: false },
-      datalabels: {
-        anchor: "end",
-        align: "top",
-        color: "#000",
-        font: { weight: "bold" },
-        formatter: Math.round
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        suggestedMax: maxY,
-        ticks: { stepSize: 5 }
-      },
-      x: {
-        ticks: {
-          color: "#000",
-          autoSkip: false,
-          maxRotation: 45,
-          minRotation: 20
-        }
-      }
-    },
-    elements: {
-      bar: {
-        barThickness: 30
-      }
+    // Check if page height is exceeded
+    if (startY > 260) {
+      doc.addPage();
+      startY = 10;
     }
   });
 
-  const makeBarData = (labels, data, label) => ({
-    labels,
-    datasets: [
-      {
-        label,
-        data,
-        backgroundColor: getBarColors(labels.length),
-        borderColor: "#333",
-        borderWidth: 1
-      }
-    ]
-  });
+  doc.save("members-by-team.pdf");
+};
+
+  
+  useEffect(() => {
+    fetchMembers();
+  }, []);
+
+  useEffect(() => {
+    let data = [...members];
+
+    if (selectedTeam !== "All Teams") {
+      data = data.filter((m) => m.team === selectedTeam);
+    }
+
+    if (searchQuery.trim() !== "") {
+      data = data.filter((m) =>
+        m.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (selectedSport !== "All Sports") {
+      data = data.filter((m) => m.sports.includes(selectedSport));
+    }
+
+    setFilteredMembers(data);
+  }, [selectedTeam, selectedSport, searchQuery, members]);
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this member?")) return;
+
+    try {
+      await axios.delete(
+        `https://sports-member-backend.onrender.com/api/members/${id}`
+      );
+      toast.success("Member deleted");
+      fetchMembers();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error deleting member");
+    }
+  };
+
+  const handleAssignTeam = async (id, newTeam) => {
+    if (!newTeam) return;
+
+    try {
+      await axios.put(
+        `https://sports-member-backend.onrender.com/api/members/${id}`,
+        { team: newTeam }
+      );
+      toast.success("Team updated");
+      fetchMembers();
+    } catch (error) {
+      console.error(error);
+      toast.error("Error updating team");
+    }
+  };
 
   return (
-    <div className="container my-5">
-      <h2 className="text-center mb-4">📊 Statistics Dashboard</h2>
+    <div className="container py-5">
+      <ToastContainer />
+      <h2 className="mb-4">Admin Dashboard</h2>
 
-      <div className="mb-4 d-flex justify-content-center">
+   <div className="mb-4">
+   
+  <Link to="/stats" className="btn btn-info">
+    <FaChartBar className="me-2" />
+    View Stats
+  </Link>
+    <button className="btn btn-danger " onClick={exportPDF}>
+  <i className="fas fa-file-download me-2"></i>Download PDF by Team
+</button>
+</div>
+
+      <div className="row mb-3">
+        <div className="col-md-4 mb-2">
+          <label htmlFor="teamFilter" className="form-label fw-bold">Filter by Team</label>
+          <select
+            className="form-select"
+            value={selectedTeam}
+            onChange={(e) => setSelectedTeam(e.target.value)}
+          >
+            <option value="All Teams">All Teams</option>
+            {teamOptions.map((team) => (
+              <option key={team} value={team}>
+                {team}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-md-4 mb-2">
+          <label htmlFor="sportFilter" className="form-label fw-bold">Filter by Sports</label>  
+          <select
+            className="form-select"
+            value={selectedSport}
+            onChange={(e) => setSelectedSport(e.target.value)}
+          >
+            <option value="All Sports">All Sports</option>
+            {sportOptions.map((sport) => (
+              <option key={sport} value={sport}>
+                {sport}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-md-4 mb-2">
+            <label htmlFor="sportFilter" className="form-label fw-bold">Search by Name</label>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by name..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+             
+
+              
+      </div>
+
+      <div className="table-responsive">
+        <table className="table table-bordered table-striped align-middle">
+         <thead className="table-dark">
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Age</th>
+    <th>Sex</th>
+    <th>Weight</th>
+    <th>Sports</th>
+    <th>Team</th>
+    <th>Actions</th>
+  </tr>
+</thead>
+<tbody>
+  {filteredMembers.map((member, index) => (
+    <tr key={member._id}>
+      <td>{index + 1}</td>
+      <td>{member.name}</td>
+      <td>{member.phone}</td>
+      <td>{member.age}</td>
+      <td>{member.sex}</td>
+      <td>{member.weight}</td> {/* ✅ Add this line */}
+      <td>{member.sports.join(', ')}</td>
+      <td>
         <select
-          className="form-select w-auto"
-          value={selectedTeam}
-          onChange={(e) => setSelectedTeam(e.target.value)}
+          className="form-select"
+          value={member.team}
+          onChange={(e) => handleAssignTeam(member._id, e.target.value)}
         >
-          {allTeams.map((team) => (
-            <option key={team} value={team}>
-              {team}
-            </option>
+          {teamOptions.map((team) => (
+            <option key={team} value={team}>{team}</option>
           ))}
         </select>
-      </div>
-
-      <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h4 className="text-center">Players Per Sport</h4>
-        <Bar
-          data={makeBarData(
-            Object.keys(sportsCounts),
-            Object.values(sportsCounts),
-            "Number of Players"
-          )}
-          options={sharedOptions(80)}
-        />
-      </div>
-
-      <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h4 className="text-center">Members Per Team</h4>
-        <Bar
-          data={makeBarData(
-            Object.keys(teamCounts),
-            Object.values(teamCounts),
-            "Team Members"
-          )}
-          options={sharedOptions(30)}
-        />
-      </div>
-
-      <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h4 className="text-center">Age Group Distribution</h4>
-        <Bar
-          data={makeBarData(
-            Object.keys(ageGroups),
-            Object.values(ageGroups),
-            "Age Group Count"
-          )}
-          options={sharedOptions(70)}
-        />
+      </td>
+      <td>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => handleDelete(member._id)}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+  {filteredMembers.length === 0 && (
+    <tr>
+      <td colSpan="9" className="text-center">
+        No members found.
+      </td>
+    </tr>
+  )}
+</tbody>
+        </table>
       </div>
     </div>
   );
-};
+}
 
-export default Stats;
+export default Dashboard;
