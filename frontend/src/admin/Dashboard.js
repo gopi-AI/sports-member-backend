@@ -3,6 +3,9 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaLock } from "react-icons/fa";
+import { FaChartBar } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 
 function Dashboard() {
   const [members, setMembers] = useState([]);
@@ -103,10 +106,13 @@ function Dashboard() {
       <ToastContainer />
       <h2 className="mb-4">Admin Dashboard</h2>
 
-    <div className="alert alert-warning d-flex align-items-center mb-4" role="alert">
-  <FaLock className="me-2" />
-  <div>Registration is currently closed. You can still manage existing members.</div>
+   <div className="mb-4">
+  <Link to="/stats" className="btn btn-info">
+    <FaChartBar className="me-2" />
+    View Stats
+  </Link>
 </div>
+
       <div className="row mb-3">
         <div className="col-md-4 mb-2">
           <label htmlFor="teamFilter" className="form-label fw-bold">Filter by Team</label>
