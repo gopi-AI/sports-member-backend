@@ -4,6 +4,7 @@ import MemberForm from './components/MemberForm';
 import Dashboard from './admin/Dashboard';
 import TeamProfile from './admin/TeamProfile';
 import Success from "./components/Success";
+import Stats from './admin/Stats';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/team/:teamName" element={<TeamProfile />} />
         <Route path="/success" element={<Success />} />
         <Route path="/admin" element={<Dashboard />} />
+        <Route path="/stats" element={<Stats />} />    
       </Routes>
     </div>
   );
