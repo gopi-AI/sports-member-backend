@@ -8,10 +8,19 @@ import {
   BarElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 } from "chart.js";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ChartDataLabels
+);
 
 const Stats = () => {
   const [members, setMembers] = useState([]);
@@ -23,15 +32,8 @@ const Stats = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const sportsOptions = [
-    "Cricket",
-    "Badminton",
-    "BenchPress Challenge",
-    "DeadLift challenge",
-    "Tug of War",
-    "Circuit Challenges",
-  ];
-
+  const sportsCounts = {};
+  const teamCounts = {};
   const ageGroups = {
     "14-18": 0,
     "19-25": 0,
@@ -40,22 +42,19 @@ const Stats = () => {
     "35-45": 0,
     "45-50": 0,
     "50-60": 0,
-    Others: 0,
+    Others: 0
   };
 
-  const teamCounts = {};
-  const sportsCounts = {};
-
   members.forEach((member) => {
-    // Count by sports
+    // Count sports
     member.sports.forEach((sport) => {
       sportsCounts[sport] = (sportsCounts[sport] || 0) + 1;
     });
 
-    // Count by team
+    // Count teams
     teamCounts[member.team] = (teamCounts[member.team] || 0) + 1;
 
-    // Count by age group
+    // Count age groups
     const age = member.age;
     if (age >= 14 && age <= 18) ageGroups["14-18"]++;
     else if (age >= 19 && age <= 25) ageGroups["19-25"]++;
@@ -67,40 +66,87 @@ const Stats = () => {
     else ageGroups["Others"]++;
   });
 
-  const makeBarChart = (labels, data, label) => ({
+  // Utility: generate distinct colors
+  const getBarColors = (count) =>
+    Array.from({ length: count }, () =>
+      `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
+    );
+
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      title: { display: false },
+      datalabels: {
+        anchor: "end",
+        align: "top",
+        color: "#000",
+        font: { weight: "bold" },
+        formatter: Math.round
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: { stepSize: 1 }
+      }
+    }
+  };
+
+  const makeBarData = (labels, data, label) => ({
     labels,
     datasets: [
       {
         label,
         data,
-        backgroundColor: "rgba(54, 162, 235, 0.6)",
-        borderColor: "rgba(54, 162, 235, 1)",
-        borderWidth: 1,
-      },
-    ],
+        backgroundColor: getBarColors(labels.length),
+        borderColor: "#333",
+        borderWidth: 1
+      }
+    ]
   });
 
   return (
     <div className="container my-5">
-      <h2 className="mb-4">Statistics</h2>
+      <h2 className="text-center mb-4">📊 Statistics Dashboard</h2>
 
       <div className="mb-5">
         <h4>Players Per Sport</h4>
-        <Bar data={makeBarChart(Object.keys(sportsCounts), Object.values(sportsCounts), "Players")} />
+        <Bar
+          data={makeBarData(
+            Object.keys(sportsCounts),
+            Object.values(sportsCounts),
+            "Number of Players"
+          )}
+          options={barOptions}
+        />
       </div>
 
       <div className="mb-5">
         <h4>Members Per Team</h4>
-        <Bar data={makeBarChart(Object.keys(teamCounts), Object.values(teamCounts), "Team Members")} />
+        <Bar
+          data={makeBarData(
+            Object.keys(teamCounts),
+            Object.values(teamCounts),
+            "Team Members"
+          )}
+          options={barOptions}
+        />
       </div>
 
       <div className="mb-5">
         <h4>Age Group Distribution</h4>
-        <Bar data={makeBarChart(Object.keys(ageGroups), Object.values(ageGroups), "Age Groups")} />
+        <Bar
+          data={makeBarData(
+            Object.keys(ageGroups),
+            Object.values(ageGroups),
+            "Age Group Count"
+          )}
+          options={barOptions}
+        />
       </div>
     </div>
   );
 };
 
 export default Stats;
-
