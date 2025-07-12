@@ -158,6 +158,9 @@ const exportPDF = () => {
     <FaChartBar className="me-2" />
     View Stats
   </Link>
+    <button className="btn btn-outline-primary mb-3" onClick={exportPDF}>
+  <i className="bi bi-download me-2"></i>Download PDF by Team
+</button>
 </div>
 
       <div className="row mb-3">
@@ -201,12 +204,7 @@ const exportPDF = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-               <div className="col-md-4 mb-2">
-            <label htmlFor="sportFilter" className="form-label fw-bold">Download PDF by Team</label>
-         <button className="btn btn-outline-primary mb-3" onClick={exportPDF}>
-  <i className="bi bi-download me-2"></i>
-</button>
-        </div>
+             
 
               
       </div>
