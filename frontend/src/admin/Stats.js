@@ -26,6 +26,7 @@ const Stats = () => {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
+    document.title = "Some Stats | Oxygen Fitness";
     axios
       .get("https://sports-member-backend.onrender.com/api/members")
       .then((res) => setMembers(res.data))
