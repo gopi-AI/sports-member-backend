@@ -88,7 +88,7 @@ const Stats = () => {
     scales: {
       y: {
         beginAtZero: true,
-        max: 100,
+        max: 70,
         ticks: { stepSize: 1 }
       }
     }
