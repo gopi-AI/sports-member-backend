@@ -152,13 +152,6 @@ const exportPDF = () => {
       <ToastContainer />
       <h2 className="mb-4">Admin Dashboard</h2>
 
-
-     <div className="mb-4">
-    <button className="btn btn-outline-primary mb-3" onClick={exportPDF}>
-  Download PDF by Team
-</button>
- 
-</div>
    <div className="mb-4">
    
   <Link to="/stats" className="btn btn-info">
@@ -208,6 +201,14 @@ const exportPDF = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
+               <div className="col-md-4 mb-2">
+            <label htmlFor="sportFilter" className="form-label fw-bold">Download PDF by Team</label>
+         <button className="btn btn-outline-primary mb-3" onClick={exportPDF}>
+  <i className="bi bi-download me-2"></i>
+</button>
+        </div>
+
+              
       </div>
 
       <div className="table-responsive">
