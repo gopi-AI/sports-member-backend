@@ -47,12 +47,15 @@ const Stats = () => {
   };
 
   members.forEach((member) => {
+    // Sports count
     member.sports.forEach((sport) => {
       sportsCounts[sport] = (sportsCounts[sport] || 0) + 1;
     });
 
+    // Team count
     teamCounts[member.team] = (teamCounts[member.team] || 0) + 1;
 
+    // Age group distribution
     const age = member.age;
     if (age >= 14 && age <= 18) ageGroups["14-18 Years"]++;
     else if (age >= 19 && age <= 25) ageGroups["19-25 Years"]++;
@@ -66,12 +69,11 @@ const Stats = () => {
 
   const getBarColors = (count) =>
     Array.from({ length: count }, () =>
-      `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
+      hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)
     );
 
   const sharedOptions = (maxY) => ({
     responsive: true,
-    maintainAspectRatio: false,
     plugins: {
       legend: { display: false },
       datalabels: {
@@ -89,7 +91,7 @@ const Stats = () => {
         ticks: { stepSize: 5 }
       },
       x: {
-        ticks: { color: "#000", autoSkip: false, maxRotation: 30, minRotation: 30 }
+        ticks: { color: "#000", autoSkip: false }
       }
     }
   });
@@ -111,49 +113,40 @@ const Stats = () => {
     <div className="container my-5">
       <h2 className="text-center mb-4">📊 Statistics Dashboard</h2>
 
-      {/* Players Per Sport */}
-      <div className="mb-5" style={{ overflowX: "auto" }}>
-        <div style={{ minWidth: "600px", maxWidth: "800px", margin: "0 auto", height: "300px" }}>
-          <h4 className="text-center">Players Per Sport</h4>
-          <Bar
-            data={makeBarData(
-              Object.keys(sportsCounts),
-              Object.values(sportsCounts),
-              "Number of Players"
-            )}
-            options={sharedOptions(80)}
-          />
-        </div>
+      <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
+        <h4>Players Per Sport</h4>
+        <Bar
+          data={makeBarData(
+            Object.keys(sportsCounts),
+            Object.values(sportsCounts),
+            "Number of Players"
+          )}
+          options={sharedOptions(80)}
+        />
       </div>
 
-      {/* Members Per Team */}
-      <div className="mb-5" style={{ overflowX: "auto" }}>
-        <div style={{ minWidth: "600px", maxWidth: "800px", margin: "0 auto", height: "300px" }}>
-          <h4 className="text-center">Members Per Team</h4>
-          <Bar
-            data={makeBarData(
-              Object.keys(teamCounts),
-              Object.values(teamCounts),
-              "Team Members"
-            )}
-            options={sharedOptions(30)}
-          />
-        </div>
+      <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
+        <h4>Members Per Team</h4>
+        <Bar
+          data={makeBarData(
+            Object.keys(teamCounts),
+            Object.values(teamCounts),
+            "Team Members"
+          )}
+          options={sharedOptions(30)}
+        />
       </div>
 
-      {/* Age Group Distribution */}
-      <div className="mb-5" style={{ overflowX: "auto" }}>
-        <div style={{ minWidth: "600px", maxWidth: "800px", margin: "0 auto", height: "300px" }}>
-          <h4 className="text-center">Age Group Distribution</h4>
-          <Bar
-            data={makeBarData(
-              Object.keys(ageGroups),
-              Object.values(ageGroups),
-              "Age Group Count"
-            )}
-            options={sharedOptions(70)}
-          />
-        </div>
+      <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
+        <h4>Age Group Distribution</h4>
+        <Bar
+          data={makeBarData(
+            Object.keys(ageGroups),
+            Object.values(ageGroups),
+            "Age Group Count"
+          )}
+          options={sharedOptions(70)}
+        />
       </div>
     </div>
   );
