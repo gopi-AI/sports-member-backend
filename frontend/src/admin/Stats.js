@@ -11,7 +11,7 @@ import {
   Legend
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
- 
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -67,14 +67,15 @@ const Stats = () => {
     else ageGroups["Above 60 Years"]++;
   });
 
- const getBarColors = (count) =>
-  Array.from({ length: count }, () =>
-    `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
-  );
-;
+  const getBarColors = (count) =>
+    Array.from({ length: count }, () =>
+      `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
+    );
 
   const sharedOptions = (maxY) => ({
     responsive: true,
+    maintainAspectRatio: true,
+    aspectRatio: 1.8,
     plugins: {
       legend: { display: false },
       datalabels: {
@@ -92,7 +93,17 @@ const Stats = () => {
         ticks: { stepSize: 5 }
       },
       x: {
-        ticks: { color: "#000", autoSkip: false }
+        ticks: {
+          color: "#000",
+          autoSkip: false,
+          maxRotation: 45,
+          minRotation: 20
+        }
+      }
+    },
+    elements: {
+      bar: {
+        barThickness: 30
       }
     }
   });
@@ -115,7 +126,7 @@ const Stats = () => {
       <h2 className="text-center mb-4">📊 Statistics Dashboard</h2>
 
       <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h4>Players Per Sport</h4>
+        <h4 className="text-center">Players Per Sport</h4>
         <Bar
           data={makeBarData(
             Object.keys(sportsCounts),
@@ -127,7 +138,7 @@ const Stats = () => {
       </div>
 
       <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h4>Members Per Team</h4>
+        <h4 className="text-center">Members Per Team</h4>
         <Bar
           data={makeBarData(
             Object.keys(teamCounts),
@@ -139,7 +150,7 @@ const Stats = () => {
       </div>
 
       <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h4>Age Group Distribution</h4>
+        <h4 className="text-center">Age Group Distribution</h4>
         <Bar
           data={makeBarData(
             Object.keys(ageGroups),
