@@ -5,6 +5,7 @@ import Dashboard from './admin/Dashboard';
 import TeamProfile from './admin/TeamProfile';
 import Success from "./components/Success";
 import Stats from './admin/Stats';
+import { FaLock } from "react-icons/fa";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         />
       </nav>
       <Routes>
-        <Route path="/" element={<h2 className="text-center text-danger">Registration is Closed</h2>} />
+        <Route path="/" element={ <div className="text-center mt-5"> <FaLock size={40} className="text-danger mb-3" /> <h2 className="text-danger">Registration is Closed</h2> </div> } />
         <Route path="/anonymous" element={<MemberForm />} />
         <Route path="/team/:teamName" element={<TeamProfile />} />
         <Route path="/success" element={<Success />} />
