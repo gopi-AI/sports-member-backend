@@ -38,104 +38,62 @@ const Stats = () => {
     "14-18 Years": 0,
     "19-25 Years": 0,
     "26-30 Years": 0,
-    "30-35 Years": 0,
-    "35-45 Years": 0,
-    "45-50 Years": 0,
-    "50-60 Years": 0,
-    Above 60 Years: 0
+    "31-35 Years": 0,
+    "36-45 Years": 0,
+    "46-50 Years": 0,
+    "51-60 Years": 0,
+    "Above 60 Years": 0
   };
 
   members.forEach((member) => {
-    // Count sports
+    // Sports count
     member.sports.forEach((sport) => {
       sportsCounts[sport] = (sportsCounts[sport] || 0) + 1;
     });
 
-    // Count teams
+    // Team count
     teamCounts[member.team] = (teamCounts[member.team] || 0) + 1;
 
-    // Count age groups
+    // Age group distribution
     const age = member.age;
-    if (age >= 14 && age <= 18) ageGroups["14-18"]++;
-    else if (age >= 19 && age <= 25) ageGroups["19-25"]++;
-    else if (age >= 26 && age <= 30) ageGroups["26-30"]++;
-    else if (age >= 31 && age <= 35) ageGroups["30-35"]++;
-    else if (age >= 36 && age <= 45) ageGroups["35-45"]++;
-    else if (age >= 46 && age <= 50) ageGroups["45-50"]++;
-    else if (age >= 51 && age <= 60) ageGroups["50-60"]++;
-    else ageGroups["Others"]++;
+    if (age >= 14 && age <= 18) ageGroups["14-18 Years"]++;
+    else if (age >= 19 && age <= 25) ageGroups["19-25 Years"]++;
+    else if (age >= 26 && age <= 30) ageGroups["26-30 Years"]++;
+    else if (age >= 31 && age <= 35) ageGroups["31-35 Years"]++;
+    else if (age >= 36 && age <= 45) ageGroups["36-45 Years"]++;
+    else if (age >= 46 && age <= 50) ageGroups["46-50 Years"]++;
+    else if (age >= 51 && age <= 60) ageGroups["51-60 Years"]++;
+    else ageGroups["Above 60 Years"]++;
   });
 
-  // Utility: generate distinct colors
   const getBarColors = (count) =>
     Array.from({ length: count }, () =>
       `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
     );
 
-  const playersPerSportOptions = {
-  responsive: true,
-  plugins: {
-    legend: { display: false },
-    datalabels: {
-      anchor: "end",
-      align: "top",
-      color: "#000",
-      font: { weight: "bold" },
-      formatter: Math.round
+  const sharedOptions = (maxY) => ({
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      datalabels: {
+        anchor: "end",
+        align: "top",
+        color: "#000",
+        font: { weight: "bold" },
+        formatter: Math.round
+      }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        suggestedMax: maxY,
+        ticks: { stepSize: 5 }
+      },
+      x: {
+        ticks: { color: "#000", autoSkip: false }
+      }
     }
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      max: 80,
-      ticks: { stepSize: 10 }
-    }
-  }
-};
-
-
-const membersPerTeamOptions = {
-  responsive: true,
-  plugins: {
-    legend: { display: false },
-    datalabels: {
-      anchor: "end",
-      align: "top",
-      color: "#000",
-      font: { weight: "bold" },
-      formatter: Math.round
-    }
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      max: 30,
-      ticks: { stepSize: 5 }
-    }
-  }
-};
-
-const ageGroupOptions = {
-  responsive: true,
-  plugins: {
-    legend: { display: false },
-    datalabels: {
-      anchor: "end",
-      align: "top",
-      color: "#000",
-      font: { weight: "bold" },
-      formatter: Math.round
-    }
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      max: 61,
-      ticks: { stepSize: 5 }
-    }
-  }
-};
-
+  });
 
   const makeBarData = (labels, data, label) => ({
     labels,
@@ -162,7 +120,7 @@ const ageGroupOptions = {
             Object.values(sportsCounts),
             "Number of Players"
           )}
-          options={playersPerSportOptions}
+          options={sharedOptions(80)}
         />
       </div>
 
@@ -174,7 +132,7 @@ const ageGroupOptions = {
             Object.values(teamCounts),
             "Team Members"
           )}
-          options={membersPerTeamOptions}
+          options={sharedOptions(30)}
         />
       </div>
 
@@ -186,7 +144,7 @@ const ageGroupOptions = {
             Object.values(ageGroups),
             "Age Group Count"
           )}
-          options={ageGroupOptions}
+          options={sharedOptions(70)}
         />
       </div>
     </div>
