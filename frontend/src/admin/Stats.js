@@ -114,7 +114,7 @@ const Stats = () => {
       <h2 className="text-center mb-4">📊 Statistics Dashboard</h2>
 
       <div className="mb-5" style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <h4>Total Players Per Sport</h4>
+        <h4>Players Per Sport</h4>
         <Bar
           data={makeBarData(
             Object.keys(sportsCounts),
