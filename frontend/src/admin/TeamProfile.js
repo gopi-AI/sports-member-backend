@@ -9,6 +9,7 @@ function TeamProfile() {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
+    document.title = `${teamName} | Team Profile`;
     loadTeamMembers();
   }, [teamName]);
 
@@ -22,33 +23,40 @@ function TeamProfile() {
   };
 
   return (
-    <div>
-      <h2>Team: {teamName}</h2>
-      <Link className="btn btn-secondary mb-3" to="/admin">
-        Back to Admin Dashboard
-      </Link>
+    <div className="container my-5">
+      <h2 className="mb-4 text-center">👥 Team: {teamName}</h2>
 
-      {members.length === 0 && <p>No members found for this team.</p>}
+      <div className="mb-3">
+        <Link className="btn btn-secondary" to="/admin">
+          ← Back to Admin Dashboard
+        </Link>
+      </div>
 
-      {members.length > 0 && (
-        <table className="table table-bordered">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Sports</th>
-            </tr>
-          </thead>
-          <tbody>
-            {members.map(m => (
-              <tr key={m._id}>
-                <td>{m.name}</td>
-                <td>{m.phone}</td>
-                <td>{m.sports.join(', ')}</td>
+      {members.length === 0 ? (
+        <p>No members found for this team.</p>
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-bordered table-striped align-middle">
+            <thead className="table-dark">
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Sports</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {members.map((m, index) => (
+                <tr key={m._id}>
+                  <td>{index + 1}</td>
+                  <td>{m.name}</td>
+                  <td>{m.phone}</td>
+                  <td>{m.sports && m.sports.length ? m.sports.join(', ') : 'N/A'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
