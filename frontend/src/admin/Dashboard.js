@@ -147,66 +147,58 @@ function Dashboard() {
 
       <div className="table-responsive">
         <table className="table table-bordered table-striped align-middle">
-          <thead className="table-dark">
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Age</th>
-              <th>Sex</th>
-              <th>Sports</th>
-              <th>Team</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredMembers.map((member, index) => (
-              <tr key={member._id}>
-                <td>{index + 1}</td>
-                <td>{member.name}</td>
-                <td>{member.phone}</td>
-                <td>{member.age}</td>
-                <td>{member.sex}</td>
-                <td>
-                  {member.sports.map((s, idx) => (
-                    <span key={idx} className="badge bg-primary me-1">
-                      {s}
-                    </span>
-                  ))}
-                </td>
-                <td>
-                  <select
-                    className="form-select"
-                    value={member.team}
-                    onChange={(e) =>
-                      handleAssignTeam(member._id, e.target.value)
-                    }
-                  >
-                    {teamOptions.map((team) => (
-                      <option key={team} value={team}>
-                        {team}
-                      </option>
-                    ))}
-                  </select>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(member._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {filteredMembers.length === 0 && (
-              <tr>
-                <td colSpan="7" className="text-center">
-                  No members found.
-                </td>
-              </tr>
-            )}
-          </tbody>
+         <thead className="table-dark">
+  <tr>
+    <th>#</th>
+    <th>Name</th>
+    <th>Phone</th>
+    <th>Age</th>
+    <th>Sex</th>
+    <th>Weight</th>
+    <th>Sports</th>
+    <th>Team</th>
+    <th>Actions</th>
+  </tr>
+</thead>
+<tbody>
+  {filteredMembers.map((member, index) => (
+    <tr key={member._id}>
+      <td>{index + 1}</td>
+      <td>{member.name}</td>
+      <td>{member.phone}</td>
+      <td>{member.age}</td>
+      <td>{member.sex}</td>
+      <td>{member.weight}</td> {/* ✅ Add this line */}
+      <td>{member.sports.join(', ')}</td>
+      <td>
+        <select
+          className="form-select"
+          value={member.team}
+          onChange={(e) => handleAssignTeam(member._id, e.target.value)}
+        >
+          {teamOptions.map((team) => (
+            <option key={team} value={team}>{team}</option>
+          ))}
+        </select>
+      </td>
+      <td>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => handleDelete(member._id)}
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  ))}
+  {filteredMembers.length === 0 && (
+    <tr>
+      <td colSpan="9" className="text-center">
+        No members found.
+      </td>
+    </tr>
+  )}
+</tbody>
         </table>
       </div>
     </div>
