@@ -15,7 +15,7 @@ function App() {
         <img 
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc_WxcS1J_6tayj3HFh9apGgn9j-U71LA09w&s"
           className="rounded-circle img-thumbnail"
-          style={{ width: "120px", height: "120px", objectFit: "cover" }}
+          style={{ width: "140px", height: "140px", objectFit: "cover" }}
           alt="Profilepic"
         />
       </nav>
