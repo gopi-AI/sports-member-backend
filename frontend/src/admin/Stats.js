@@ -72,27 +72,70 @@ const Stats = () => {
       `hsl(${Math.floor(Math.random() * 360)}, 70%, 60%)`
     );
 
-  const barOptions = {
-    responsive: true,
-    plugins: {
-      legend: { display: false },
-      title: { display: false },
-      datalabels: {
-        anchor: "end",
-        align: "top",
-        color: "#000",
-        font: { weight: "bold" },
-        formatter: Math.round
-      }
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        max: 70,
-        ticks: { stepSize: 1 }
-      }
+  const playersPerSportOptions = {
+  responsive: true,
+  plugins: {
+    legend: { display: false },
+    datalabels: {
+      anchor: "end",
+      align: "top",
+      color: "#000",
+      font: { weight: "bold" },
+      formatter: Math.round
     }
-  };
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      max: 80,
+      ticks: { stepSize: 10 }
+    }
+  }
+};
+
+
+const membersPerTeamOptions = {
+  responsive: true,
+  plugins: {
+    legend: { display: false },
+    datalabels: {
+      anchor: "end",
+      align: "top",
+      color: "#000",
+      font: { weight: "bold" },
+      formatter: Math.round
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      max: 50,
+      ticks: { stepSize: 5 }
+    }
+  }
+};
+
+const ageGroupOptions = {
+  responsive: true,
+  plugins: {
+    legend: { display: false },
+    datalabels: {
+      anchor: "end",
+      align: "top",
+      color: "#000",
+      font: { weight: "bold" },
+      formatter: Math.round
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      max: 61,
+      ticks: { stepSize: 5 }
+    }
+  }
+};
+
 
   const makeBarData = (labels, data, label) => ({
     labels,
@@ -119,7 +162,7 @@ const Stats = () => {
             Object.values(sportsCounts),
             "Number of Players"
           )}
-          options={barOptions}
+          options={playersPerSportOptions}
         />
       </div>
 
@@ -131,7 +174,7 @@ const Stats = () => {
             Object.values(teamCounts),
             "Team Members"
           )}
-          options={barOptions}
+          options={membersPerTeamOptions}
         />
       </div>
 
@@ -143,7 +186,7 @@ const Stats = () => {
             Object.values(ageGroups),
             "Age Group Count"
           )}
-          options={barOptions}
+          options={ageGroupOptions}
         />
       </div>
     </div>
