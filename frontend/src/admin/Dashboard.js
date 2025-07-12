@@ -159,7 +159,7 @@ const exportPDF = () => {
     View Stats
   </Link>
     <button className="btn btn-outline-primary mb-3" onClick={exportPDF}>
-  <i className="bi bi-download me-2"></i>Download PDF by Team
+  <i className="fas fa-file-download me-2"></i>Download PDF by Team
 </button>
 </div>
 
