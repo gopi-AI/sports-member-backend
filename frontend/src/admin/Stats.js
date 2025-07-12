@@ -109,7 +109,7 @@ const membersPerTeamOptions = {
   scales: {
     y: {
       beginAtZero: true,
-      max: 50,
+      max: 30,
       ticks: { stepSize: 5 }
     }
   }
