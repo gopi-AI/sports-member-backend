@@ -17,7 +17,8 @@ function App() {
         />
       </nav>
       <Routes>
-        <Route path="/" element={<MemberForm />} />
+        <Route path="/" element={<h2 className="text-center text-danger">Registration is Closed</h2>} />
+        <Route path="/anonymous" element={<MemberForm />} />
         <Route path="/team/:teamName" element={<TeamProfile />} />
         <Route path="/success" element={<Success />} />
         <Route path="/admin" element={<Dashboard />} />
