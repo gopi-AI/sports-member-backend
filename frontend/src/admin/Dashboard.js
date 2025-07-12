@@ -228,11 +228,11 @@ const exportPDF = () => {
   {filteredMembers.map((member, index) => (
     <tr key={member._id}>
       <td>{index + 1}</td>
-      <td>{member.name}</td>
+      <td><Link to={`/team/${encodeURIComponent(teamName)}`}>{member.name}</Link></td>
       <td>{member.phone}</td>
       <td>{member.age}</td>
       <td>{member.sex}</td>
-      <td>{member.weight}</td> {/* ✅ Add this line */}
+      <td>{member.weight}</td> 
       <td>{member.sports.join(', ')}</td>
       <td>
         <select
