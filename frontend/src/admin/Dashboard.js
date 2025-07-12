@@ -228,7 +228,9 @@ const exportPDF = () => {
   {filteredMembers.map((member, index) => (
     <tr key={member._id}>
       <td>{index + 1}</td>
-      <td><Link to={`/team/${encodeURIComponent(teamName)}`}>{member.name}</Link></td>
+      <td><Link to={`/team/${member.team}`} className="text-decoration-none">
+    {member.name}
+  </Link></td>
       <td>{member.phone}</td>
       <td>{member.age}</td>
       <td>{member.sex}</td>
