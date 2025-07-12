@@ -35,14 +35,14 @@ const Stats = () => {
   const sportsCounts = {};
   const teamCounts = {};
   const ageGroups = {
-    "14-18": 0,
-    "19-25": 0,
-    "26-30": 0,
-    "30-35": 0,
-    "35-45": 0,
-    "45-50": 0,
-    "50-60": 0,
-    Others: 0
+    "14-18 Years": 0,
+    "19-25 Years": 0,
+    "26-30 Years": 0,
+    "30-35 Years": 0,
+    "35-45 Years": 0,
+    "45-50 Years": 0,
+    "50-60 Years": 0,
+    Above 60 Years: 0
   };
 
   members.forEach((member) => {
