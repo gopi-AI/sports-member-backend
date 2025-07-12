@@ -158,7 +158,7 @@ const exportPDF = () => {
     <FaChartBar className="me-2" />
     View Stats
   </Link>
-    <button className="btn btn-outline-primary mb-3" onClick={exportPDF}>
+    <button className="btn btn-danger " onClick={exportPDF}>
   <i className="fas fa-file-download me-2"></i>Download PDF by Team
 </button>
 </div>
